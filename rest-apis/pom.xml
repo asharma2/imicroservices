@@ -1,0 +1,239 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.rest</groupId>
+	<artifactId>rest-apis</artifactId>
+	<packaging>jar</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>rest-apis</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<protobuf.version>3.6.1</protobuf.version>
+
+		<build-helper-maven-plugin.version>1.9.1</build-helper-maven-plugin.version>
+		<maven-antrun-plugin.version>1.8</maven-antrun-plugin.version>
+		<maven-dependency-plugin.version>2.10</maven-dependency-plugin.version>
+		<maven-shade-plugin.version>2.4.2</maven-shade-plugin.version>
+		<os-maven-plugin.version>1.4.1.Final</os-maven-plugin.version>
+
+		<protobuf.input.directory>${project.basedir}/src/main/resources/proto</protobuf.input.directory>
+		<protobuf.output.directory>${project.build.directory}/generated-sources</protobuf.output.directory>
+	</properties>
+	<dependencies>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-dependencies</artifactId>
+			<version>2.0.4.RELEASE</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-test -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<version>2.0.4.RELEASE</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-devtools -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>2.0.4.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<version>2.0.4.RELEASE</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>5.0.8.RELEASE</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>5.0.8.RELEASE</version>
+		</dependency>
+
+
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-protobuf -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-protobuf</artifactId>
+			<version>2.9.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>${protobuf.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.googlecode.protobuf-java-format/protobuf-java-format -->
+		<dependency>
+			<groupId>com.googlecode.protobuf-java-format</groupId>
+			<artifactId>protobuf-java-format</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpclient -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.6</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents/httpmime -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.5.6</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<!-- provides os.detected.classifier (i.e. linux-x86_64, osx-x86_64) property -->
+		<extensions>
+			<extension>
+				<groupId>kr.motd.maven</groupId>
+				<artifactId>os-maven-plugin</artifactId>
+				<version>${os-maven-plugin.version}</version>
+			</extension>
+		</extensions>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>${maven-dependency-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>copy-protoc</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>copy</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.google.protobuf</groupId>
+									<artifactId>protoc</artifactId>
+									<version>${protobuf.version}</version>
+									<classifier>${os.detected.classifier}</classifier>
+									<type>exe</type>
+									<overWrite>true</overWrite>
+									<outputDirectory>${project.build.directory}</outputDirectory>
+								</artifactItem>
+							</artifactItems>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>${maven-antrun-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>exec-protoc</id>
+						<phase>generate-sources</phase>
+						<configuration>
+							<target>
+								<property name="protoc.filename"
+									value="protoc-${protobuf.version}-${os.detected.classifier}.exe" />
+								<property name="protoc.filepath"
+									value="${project.build.directory}/${protoc.filename}" />
+								<chmod file="${protoc.filepath}" perm="ugo+rx" />
+								<mkdir dir="${protobuf.output.directory}" />
+								<path id="protobuf.input.filepaths.path">
+									<fileset dir="${protobuf.input.directory}">
+										<include name="**/*.proto" />
+									</fileset>
+								</path>
+								<pathconvert pathsep=" "
+									property="protobuf.input.filepaths"
+									refid="protobuf.input.filepaths.path" />
+								<exec executable="${protoc.filepath}" failonerror="true">
+									<arg value="-I" />
+									<arg value="${protobuf.input.directory}" />
+									<arg value="--java_out" />
+									<arg value="${protobuf.output.directory}" />
+									<arg line="${protobuf.input.filepaths}" />
+								</exec>
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>${build-helper-maven-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>add-classes</id>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>add-source</goal>
+						</goals>
+						<configuration>
+							<sources>
+								<source>${protobuf.output.directory}</source>
+							</sources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
